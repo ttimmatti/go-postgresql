@@ -27,7 +27,7 @@ postgres:12.5-alpine
 // setting up db connection  
 4. Code:  
 ```
-dsn := url.URL{
+	dsn := url.URL{
 		Scheme: "postgres",
 		Host:   "localhost:port",
 		User:   url.UserPassword("user", "password"),
@@ -42,20 +42,19 @@ dsn := url.URL{
 	db, err := sql.Open("pgx", dsn.String())
 	if err != nil {
 		log.Println(err)
+		return
 	}
-  
-  if err := db.PingContext(context.Background()); err != nil {
+	defer func() {
+		_ = db.Close()
+		log.Println("connection is closed")
+	}()
+
+	if err := db.PingContext(context.Background()); err != nil {
 		log.Println(err)
 		return
 	}
   
-  //set this to callback on error
-	defer func() {
-		_ = db.Close()
-		log.Println("connection is closed")
-	}() 
-  
-  //querys
+	//querys
 ```
 
 ## All set
