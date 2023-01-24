@@ -57,4 +57,7 @@ postgres:12.5-alpine
 	//querys
 ```
 
+5. Access db manually:  
+docker exec -it $container_id psql -U user -d dbname
+
 ## All set
